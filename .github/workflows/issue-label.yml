@@ -1,0 +1,64 @@
+name: Issue Label
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  issue-label:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Auto Label Issue
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const title = context.payload.issue.title.toLowerCase();
+          const body = context.payload.issue.body.toLowerCase();
+          const labels = [];
+          
+          // 제목과 본문을 기반으로 라벨 결정
+          if (title.includes('[bug]') || title.includes('버그') || body.includes('버그') || body.includes('오류')) {
+            labels.push('bug');
+          }
+          
+          if (title.includes('[feature]') || title.includes('기능') || body.includes('새로운 기능') || body.includes('기능 요청')) {
+            labels.push('feature');
+          }
+          
+          if (title.includes('[enhancement]') || title.includes('개선') || body.includes('개선') || body.includes('향상')) {
+            labels.push('enhancement');
+          }
+          
+          if (title.includes('[documentation]') || title.includes('문서') || body.includes('문서') || body.includes('가이드')) {
+            labels.push('documentation');
+          }
+          
+          if (body.includes('도움') || body.includes('help') || body.includes('질문')) {
+            labels.push('help wanted');
+          }
+          
+          if (body.includes('초보자') || body.includes('beginner') || body.includes('first issue')) {
+            labels.push('good first issue');
+          }
+          
+          // 우선순위 라벨 결정
+          if (title.includes('urgent') || body.includes('긴급') || body.includes('높은 우선순위') || body.includes('critical')) {
+            labels.push('priority: high');
+          } else if (title.includes('important') || body.includes('중요') || body.includes('중간 우선순위')) {
+            labels.push('priority: medium');
+          } else {
+            labels.push('priority: low');
+          }
+          
+          // 라벨 추가
+          if (labels.length > 0) {
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: labels
+            });
+            
+            console.log(`Issue #${context.issue.number} labeled with: ${labels.join(', ')}`);
+          }

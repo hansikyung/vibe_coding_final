@@ -1,0 +1,52 @@
+name: PR Comment
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-comment:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: PR Comment
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+          });
+          
+          const botComment = comments.find(comment => 
+            comment.user.type === 'Bot' && 
+            comment.body.includes('🤖 PR 리뷰 봇')
+          );
+          
+          if (!botComment) {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `🤖 PR 리뷰 봇
+
+안녕하세요! PR이 생성되었습니다.
+
+## 📋 체크리스트
+- [ ] 코드 리뷰가 완료되었나요?
+- [ ] 테스트가 모두 통과했나요?
+- [ ] 문서가 업데이트되었나요?
+- [ ] 커밋 메시지가 명확한가요?
+
+## 🔍 자동 검사 결과
+- 테스트 실행: 진행 중...
+- 코드 품질 검사: 진행 중...
+- 보안 검사: 진행 중...
+
+리뷰어가 할당되면 자동으로 알림을 드리겠습니다! 🚀`
+            });
+          }

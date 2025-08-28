@@ -1,0 +1,53 @@
+name: Issue Comment
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  issue-comment:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Issue Comment
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+          });
+          
+          const botComment = comments.find(comment => 
+            comment.user.type === 'Bot' && 
+            comment.body.includes('🤖 이슈 관리 봇')
+          );
+          
+          if (!botComment) {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `🤖 이슈 관리 봇
+
+안녕하세요! 새로운 이슈가 생성되었습니다.
+
+## 📋 처리 상태
+- [ ] 이슈 검토 완료
+- [ ] 우선순위 결정
+- [ ] 담당자 할당
+- [ ] 라벨 추가
+
+## 🔍 자동 처리 결과
+- 이슈 타입 분석: 진행 중...
+- 우선순위 결정: 진행 중...
+- 담당자 할당: 진행 중...
+
+이슈가 검토되면 자동으로 담당자가 할당됩니다! 🚀
+
+## 💡 도움이 필요하신가요?
+- [이슈 가이드라인](https://github.com/your-username/your-repo/blob/main/.cursor/rules/github-workflow.mdc)을 참고해주세요.
+- 질문이 있으시면 언제든지 코멘트를 남겨주세요.`
+            });
+          }

@@ -1,0 +1,34 @@
+name: Issue Assign
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  issue-assign:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Auto Assign Issue
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: assignees } = await github.rest.issues.listAssignees({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          
+          // 프로젝트 메인테이너 목록 (GitHub 사용자명으로 설정)
+          const maintainers = ['your-username']; // 실제 사용자명으로 변경 필요
+          
+          // 이슈 작성자가 메인테이너가 아닌 경우에만 할당
+          if (!maintainers.includes(context.payload.issue.user.login)) {
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              assignees: maintainers
+            });
+            
+            console.log(`Issue #${context.issue.number} assigned to maintainers`);
+          }

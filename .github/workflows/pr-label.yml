@@ -1,0 +1,65 @@
+name: PR Label
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-label:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    
+    steps:
+    - name: Auto Label PR
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const title = context.payload.pull_request.title.toLowerCase();
+          const body = context.payload.pull_request.body.toLowerCase();
+          const labels = [];
+          
+          // 제목과 본문을 기반으로 라벨 결정
+          if (title.includes('feat:') || title.includes('feature') || body.includes('새로운 기능')) {
+            labels.push('feature');
+          }
+          
+          if (title.includes('fix:') || title.includes('bug') || body.includes('버그 수정')) {
+            labels.push('bug');
+          }
+          
+          if (title.includes('refactor:') || title.includes('refactor') || body.includes('리팩토링')) {
+            labels.push('refactor');
+          }
+          
+          if (title.includes('docs:') || title.includes('documentation') || body.includes('문서')) {
+            labels.push('documentation');
+          }
+          
+          if (title.includes('test:') || title.includes('test') || body.includes('테스트')) {
+            labels.push('test');
+          }
+          
+          if (title.includes('chore:') || title.includes('chore') || body.includes('기타')) {
+            labels.push('chore');
+          }
+          
+          // 우선순위 라벨 결정
+          if (title.includes('urgent') || body.includes('긴급') || body.includes('높은 우선순위')) {
+            labels.push('priority: high');
+          } else if (title.includes('important') || body.includes('중요') || body.includes('중간 우선순위')) {
+            labels.push('priority: medium');
+          } else {
+            labels.push('priority: low');
+          }
+          
+          // 라벨 추가
+          if (labels.length > 0) {
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: labels
+            });
+            
+            console.log(`PR #${context.issue.number} labeled with: ${labels.join(', ')}`);
+          }

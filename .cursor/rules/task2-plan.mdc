@@ -1,0 +1,186 @@
+---
+alwaysApply: true
+---
+
+# TASK-002: FastAPI 백엔드 기본 구조 구현
+
+## 개요
+FastAPI 서버 기본 구조 및 API 엔드포인트 스켈레톤 구현을 위한 개발 계획입니다.
+
+## 구현 항목
+
+## 1. FastAPI 애플리케이션 기본 구조
+- main.py 파일 생성
+- FastAPI 인스턴스 초기화
+- 기본 라우터 설정
+
+## 2. API 라우터 구현
+- chat 라우터 생성
+- 기본 엔드포인트 구현
+- Pydantic 모델 정의
+
+## 3. Chat API 구현
+- POST /chat 엔드포인트
+- 메시지 요청/응답 모델
+- 동기 방식 구현 (not streaming)
+
+## 4. 기본 설정 및 의존성
+- 환경 변수 로드
+- CORS 설정
+- 에러 핸들링
+
+# 기술 스택 및 라이브러리
+
+## 백엔드 프레임워크
+- **FastAPI**: 웹 프레임워크
+- **uvicorn**: ASGI 서버
+- **pydantic**: 데이터 검증 및 모델링
+
+## API 구조
+- **APIRouter**: 모듈화된 라우터
+- **CORS**: 크로스 오리진 리소스 공유
+- **HTTPException**: 에러 핸들링
+
+## 개발 도구
+- **python-dotenv**: 환경 변수 관리
+- **httpx**: HTTP 클라이언트 (테스트용)
+
+# 개발 계획
+
+## 1단계: 기본 FastAPI 애플리케이션 구조
+1. backend/app 폴더 생성
+2. backend/app/__init__.py 파일 생성
+3. backend/app/main.py 파일 생성
+4. FastAPI 인스턴스 초기화
+
+## 2단계: 라우터 구조 설정
+1. backend/app/routers 폴더 생성
+2. backend/app/routers/__init__.py 파일 생성
+3. backend/app/routers/chat.py 파일 생성
+4. 기본 라우터 설정
+
+## 3단계: Pydantic 모델 정의
+1. backend/app/models 폴더 생성
+2. backend/app/models/__init__.py 파일 생성
+3. backend/app/models/chat.py 파일 생성
+4. ChatRequest, ChatResponse 모델 정의
+
+## 4단계: Chat API 엔드포인트 구현
+1. POST /chat 엔드포인트 구현
+2. 기본 응답 로직 구현
+3. 에러 핸들링 추가
+
+## 5단계: 설정 및 의존성 관리
+1. backend/app/config.py 파일 생성
+2. 환경 변수 설정
+3. CORS 미들웨어 설정
+
+## 6단계: 서버 실행 스크립트
+1. backend/run.py 파일 생성
+2. uvicorn 서버 설정
+3. 개발 모드 설정
+
+## 7단계: API 테스트
+1. 기본 엔드포인트 테스트
+2. Chat API 테스트
+3. 에러 핸들링 테스트
+
+# Context Files
+- @development-tasks.mdc
+- @tech-stack.mdc
+
+
+
+
+
+# TASK-002: FastAPI 백엔드 기본 구조 구현
+
+## 개요
+FastAPI 서버 기본 구조 및 API 엔드포인트 스켈레톤 구현을 위한 개발 계획입니다.
+
+## 구현 항목
+
+## 1. FastAPI 애플리케이션 기본 구조
+- main.py 파일 생성
+- FastAPI 인스턴스 초기화
+- 기본 라우터 설정
+
+## 2. API 라우터 구현
+- chat 라우터 생성
+- 기본 엔드포인트 구현
+- Pydantic 모델 정의
+
+## 3. Chat API 구현
+- POST /chat 엔드포인트
+- 메시지 요청/응답 모델
+- 동기 방식 구현 (not streaming)
+
+## 4. 기본 설정 및 의존성
+- 환경 변수 로드
+- CORS 설정
+- 에러 핸들링
+
+# 기술 스택 및 라이브러리
+
+## 백엔드 프레임워크
+- **FastAPI**: 웹 프레임워크
+- **uvicorn**: ASGI 서버
+- **pydantic**: 데이터 검증 및 모델링
+
+## API 구조
+- **APIRouter**: 모듈화된 라우터
+- **CORS**: 크로스 오리진 리소스 공유
+- **HTTPException**: 에러 핸들링
+
+## 개발 도구
+- **python-dotenv**: 환경 변수 관리
+- **httpx**: HTTP 클라이언트 (테스트용)
+
+# 개발 계획
+
+## 1단계: 기본 FastAPI 애플리케이션 구조
+1. backend/app 폴더 생성
+2. backend/app/__init__.py 파일 생성
+3. backend/app/main.py 파일 생성
+4. FastAPI 인스턴스 초기화
+
+## 2단계: 라우터 구조 설정
+1. backend/app/routers 폴더 생성
+2. backend/app/routers/__init__.py 파일 생성
+3. backend/app/routers/chat.py 파일 생성
+4. 기본 라우터 설정
+
+## 3단계: Pydantic 모델 정의
+1. backend/app/models 폴더 생성
+2. backend/app/models/__init__.py 파일 생성
+3. backend/app/models/chat.py 파일 생성
+4. ChatRequest, ChatResponse 모델 정의
+
+## 4단계: Chat API 엔드포인트 구현
+1. POST /chat 엔드포인트 구현
+2. 기본 응답 로직 구현
+3. 에러 핸들링 추가
+
+## 5단계: 설정 및 의존성 관리
+1. backend/app/config.py 파일 생성
+2. 환경 변수 설정
+3. CORS 미들웨어 설정
+
+## 6단계: 서버 실행 스크립트
+1. backend/run.py 파일 생성
+2. uvicorn 서버 설정
+3. 개발 모드 설정
+
+## 7단계: API 테스트
+1. 기본 엔드포인트 테스트
+2. Chat API 테스트
+3. 에러 핸들링 테스트
+
+# Context Files
+- @development-tasks.mdc
+- @tech-stack.mdc
+
+
+
+
+
