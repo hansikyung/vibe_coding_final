@@ -3,7 +3,7 @@ name: 기능 요청
 about: 새로운 기능을 제안하시나요? 알려주세요!
 title: '[Feature] '
 labels: ['feature']
-assignees: ['your-username']
+assignees: ['hansikyung']
 ---
 
 ## 기능 요청 사유

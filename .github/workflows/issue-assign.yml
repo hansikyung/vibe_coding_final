@@ -19,7 +19,7 @@ jobs:
           });
           
           // 프로젝트 메인테이너 목록 (GitHub 사용자명으로 설정)
-          const maintainers = ['your-username']; // 실제 사용자명으로 변경 필요
+          const maintainers = ['hansikyung']; // 실제 사용자명으로 변경 필요
           
           // 이슈 작성자가 메인테이너가 아닌 경우에만 할당
           if (!maintainers.includes(context.payload.issue.user.login)) {
